@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  dsc_nlp:
+    # user: ${MY_UID}:${MY_GID}
+    ports:
+      - "8889:8889"
+      - "8888:8888"
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: "alv/dsc_nlp:debug"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0', '1'] # Change to ['0', '1'] to use two GPUs
+            capabilities: [gpu]
+    tty: true 
+    volumes:
+      - /home/ch35li/alvin/dsc/course_reviews:/course_reviews
