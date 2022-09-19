@@ -1,3 +1,4 @@
 __pycache__/
 .ipynb_checkpoints
 ./hf_trainer/*
+hf_trainer/*

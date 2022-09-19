@@ -2,6 +2,7 @@ version: "3.8"
 services:
   dsc_nlp:
     # user: ${MY_UID}:${MY_GID}
+    ipc: host
     ports:
       - "8889:8889"
       - "8888:8888"
