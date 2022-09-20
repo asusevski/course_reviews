@@ -1,4 +1,3 @@
-from collections import Counter
 import gradio as gr
 import json
 import numpy as np
