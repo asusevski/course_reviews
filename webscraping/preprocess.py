@@ -53,7 +53,7 @@ def preprocess_webscraped_data2(path="./data/raw_data/course_data.json"):
                     course_rating_int = 0
             
             course_clean = course.copy()
-            course_clean['review_text'] = review_text
+            course_clean['reviews'] = review_text
             course_clean['course_rating'] = course_rating
             course_clean['course_rating_int'] = course_rating_int
             # Each row is a review

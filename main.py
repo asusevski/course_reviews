@@ -1,7 +1,8 @@
-#import gradio as gr
+from collections import Counter
+import gradio as gr
 import json
-#import numpy as np
-#from transformers import pipeline
+import numpy as np
+from transformers import pipeline
 
 
 def main():
@@ -16,13 +17,15 @@ def main():
     course_good_course_mapping = {}
     for course in courses:
         course_code = course['course_code']
-        review = course['review_text']
+        review = course['reviews']
         good_course = course['good_course']
         if course_code not in course_reviews_mapping:
             course_reviews_mapping[course_code] = [review]
+            if course_code not in course_good_course_mapping:
+                course_good_course_mapping[course_code] = good_course
             continue
-        course_reviews_mapping[course_code].append(review)
 
+        course_reviews_mapping[course_code].append(review)
         if course_code not in course_good_course_mapping:
             course_good_course_mapping[course_code] = good_course
 
