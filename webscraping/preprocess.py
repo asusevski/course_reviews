@@ -13,6 +13,56 @@ def good_course(course, col_name='liked', threshold=50):
     return 0
 
 
+def preprocess_webscraped_data2(path="./data/raw_data/course_data.json"):
+    out_path = "./data/processed_data/course_data_clean.json"
+    with open(path, "r") as f:
+        course_data = json.load(f)
+
+    course_data_clean = []
+    for course_code, course_info in course_data.items():
+        course_title = course_info['course_title']
+        num_ratings = course_info['num_ratings']
+        useful_rating = course_info['useful']
+        easy_rating = course_info['easy']
+        liked_percent = course_info['liked']
+        reviews = course_info['reviews']
+        num_reviews = len(reviews)
+
+        course = {
+                'course_code': course_code,
+                'course_title': course_title,
+                'num_ratings': num_ratings,
+                'useful': useful_rating,
+                'easy': easy_rating,
+                'liked': liked_percent,
+                'num_reviews': num_reviews
+        }
+
+        course['good_course'] = good_course(course)
+        
+        # Also assigning a label of 1 if the reviewer gave a thumbs up and 0 if they gave a thumbs down
+        for review in reviews:
+            review_text = review['review_text']
+            course_rating = review['course_rating']
+            if not course_rating:
+                course_rating_int = None
+            else:
+                if course_rating == "liked course":
+                    course_rating_int = 1
+                else:
+                    course_rating_int = 0
+            
+            course_clean = course.copy()
+            course_clean['review_text'] = review_text
+            course_clean['course_rating'] = course_rating
+            course_clean['course_rating_int'] = course_rating_int
+            # Each row is a review
+            course_data_clean.append(course_clean)
+    
+    with open(out_path, "w") as f:
+        json.dump(course_data_clean, f)
+
+
 def preprocess_webscraped_data(path="./data/raw_data/course_data.json"):
     out_path = "./data/processed_data/course_data_clean.json"
     with open(path, "r") as f:
@@ -70,4 +120,4 @@ def preprocess_webscraped_data(path="./data/raw_data/course_data.json"):
 
 
 if __name__ == "__main__":
-    preprocess_webscraped_data()
+    preprocess_webscraped_data2()
