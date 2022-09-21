@@ -82,7 +82,7 @@ def webscrape_uwflow():
             "liked": course_liked_rating
         }
     
-    for course_code, course_link in list(zip(course_codes, course_links))[:5]:
+    for course_code, course_link in list(zip(course_codes, course_links)):
         driver.get(course_link)
 
         # Read reviews:
@@ -115,10 +115,8 @@ def webscrape_uwflow():
             try:
                 if review_ratings[0] == good_course:
                     rating = "liked course"
-                    #review_ratings_verbose.append("liked course")
                 else:
                     rating = "disliked course"
-                    #review_ratings_verbose.append("disliked course")
             except IndexError:
                 # Happens if the review did not give a rating to the course
                 rating = None
